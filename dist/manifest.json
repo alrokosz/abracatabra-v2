@@ -1,0 +1,26 @@
+{
+  "name": "abracatabra",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "./icons/wizard-hat_16.png",
+    "48": "./icons/wizard-hat_48.png",
+    "128": "./icons/wizard-hat_128.png"
+  },
+  "permissions": ["downloads"],
+  "description": "watch those tabs you haven't used in a while magically disappear",
+  "homepage_url": "https://github.com/alrokosz/abracatabra-v2",
+  "action": {
+    "default_title": "abracatabra",
+    "default_popup": "./popup.html"
+  },
+  "background": {
+    "service_worker": "./background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["./content.js"]
+    }
+  ]
+}
