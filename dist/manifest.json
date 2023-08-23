@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
-    "16": "./icons/wizard-hat_16.png",
-    "48": "./icons/wizard-hat_48.png",
-    "128": "./icons/wizard-hat_128.png"
+    "16": "./icons/wizard-hat-16.png",
+    "48": "./icons/wizard-hat-48.png",
+    "128": "./icons/wizard-hat-128.png"
   },
   "permissions": ["downloads"],
   "description": "watch those tabs you haven't used in a while magically disappear",

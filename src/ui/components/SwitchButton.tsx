@@ -1,24 +1,24 @@
-import * as Switch from "@radix-ui/react-switch";
-import { useState } from "react";
+import * as Switch from '@radix-ui/react-switch';
+import { useState } from 'react';
 
 export default function SwitchButton() {
   const [isChecked, setIsChecked] = useState(false);
   console.log({ isChecked });
   const thumbColor = `bg-slate-600 ${
-    isChecked ? "bg-red-700 translate-x-5" : ""
+    isChecked ? 'bg-red-700 translate-x-5' : ''
   }`;
-  const rootColor = isChecked ? "bg-green-500" : "bg-white";
+  const rootColor = isChecked ? 'bg-green-500' : 'bg-white';
 
   return (
     // <form>
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       <label
         className="Label"
         htmlFor="airplane-mode"
         style={{ paddingRight: 15 }}
       >
-        <span className={`${isChecked ? "text-green-500" : ""}`}>On</span> /{" "}
-        <span className={`${!isChecked ? "text-green-500" : ""}`}>Off</span>
+        <span className={`${isChecked ? 'text-green-500' : ''}`}>On</span> /{' '}
+        <span className={`${!isChecked ? 'text-green-500' : ''}`}>Off</span>
       </label>
       <Switch.Root
         className={`w-11 h-6 rounded-full relative border-green-500 border-2 ${rootColor}`}
