@@ -1,10 +1,11 @@
-import { Settings } from 'react-feather';
-// import Link from "next/link";
+import * as AccessibleIcon from '@radix-ui/react-accessible-icon';
+import { GearIcon } from '@radix-ui/react-icons';
 
 export default function SettingsIcon() {
   return (
-    <button className="bg-inherit">
-      <Settings />
+    <button className="setting-btn">
+      <GearIcon />
+      {/* <AccessibleIcon.Root label="settings" /> */}
     </button>
   );
 }
