@@ -5,6 +5,7 @@ export default function Tabs() {
   const tabs = [1, 2, 3, 4, 5];
   return (
     <section>
+      <h1>Saved Tabs</h1>
       {tabs.map((tab) => (
         <Tab
           tabId={tab}

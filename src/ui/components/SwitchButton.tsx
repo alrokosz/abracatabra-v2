@@ -4,7 +4,6 @@ import '../../styles/popup.scss';
 
 export default function SwitchButton() {
   const [isChecked, setIsChecked] = useState(false);
-  console.log({ isChecked });
 
   return (
     <form className="on-off-switch">
