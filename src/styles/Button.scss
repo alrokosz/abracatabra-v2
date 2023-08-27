@@ -1,0 +1,18 @@
+.rounded-button {
+  font-family: 'Lilita One', cursive;
+  border-radius: 0.25rem;
+  background-color: black;
+  color: white;
+  border: lightgreen solid 1px;
+  font-size: 14px;
+  font-weight: 800;
+  font-stretch: extra-expanded;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+
+  button:hover {
+    background-color: white;
+    color: #082b36;
+  }
+}

@@ -1,13 +1,17 @@
-import {
-  StarFilledIcon,
-  StarIcon,
-  DividerVerticalIcon
-} from '@radix-ui/react-icons';
+import PinCheckbox from './PinCheckbox';
 
 type TabProps = {
-  tab: number;
+  tabId: number;
+  url: string;
+  starred: boolean;
 };
 
-export default function Tab({ tab }: TabProps) {
-  return <li>this is tab {tab}</li>;
+export default function Tab({ tabId, url, starred }: TabProps) {
+  return (
+    <div className="tab">
+      <PinCheckbox />
+      {' | '}
+      <a href={url}>{url}</a>
+    </div>
+  );
 }

@@ -23,7 +23,7 @@ picture,
 video,
 canvas,
 svg {
-  display: block;
+  display: inline;
   max-width: 100%;
 }
 
@@ -66,7 +66,7 @@ html {
   display: flex;
   justify-content: center;
   font-size: xx-large;
-  padding: 12px 0;
+  padding-bottom: 12px;
 }
 
 .line {
@@ -76,11 +76,6 @@ html {
 .app-header {
   display: flex;
   justify-content: space-around;
-
-  .setting-btn {
-    background: none;
-    border: none;
-  }
 
   .on-off-switch {
     button {
@@ -123,5 +118,45 @@ html {
       font-size: 15px;
       line-height: 1;
     }
+  }
+}
+
+.tab {
+  display: flex;
+  border-top: 0.5px solid limegreen;
+  padding: 2px 0;
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+.checkbox-pin {
+  button {
+    all: unset;
+  }
+
+  .CheckboxRoot {
+    background-color: white;
+    width: 18px;
+    height: 18px;
+    border: none;
+    // border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  // .CheckboxRoot:hover {
+  //   background-color: limegreen;
+  // }
+  // .CheckboxRoot:focus {
+  //   box-shadow: 0 0 0 2px black;
+  // }
+
+  .CheckboxIndicator {
+    color: limegreen;
   }
 }

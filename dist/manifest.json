@@ -7,7 +7,7 @@
     "48": "./icons/wizard-hat-48.png",
     "128": "./icons/wizard-hat-128.png"
   },
-  "permissions": ["downloads"],
+  "permissions": ["storage", "tabs", "notifications", "activeTab", "scripting"],
   "description": "watch those tabs you haven't used in a while magically disappear",
   "homepage_url": "https://github.com/alrokosz/abracatabra-v2",
   "action": {

@@ -1,11 +1,11 @@
-import SettingsIcon from './SettingsIcon';
+import Button from './Button';
 import SwitchButton from './SwitchButton';
 
 export default function Header() {
   return (
     <div className="app-header">
-      <SettingsIcon />
       <SwitchButton />
+      <Button>Save and remove tab</Button>
     </div>
   );
 }
