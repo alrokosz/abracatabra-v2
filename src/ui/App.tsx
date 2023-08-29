@@ -7,13 +7,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Settings from './components/Settings';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('tabs');
+  const [currentView, setCurrentView] = useState<'tabs' | 'settings'>('tabs');
 
   useEffect(() => {
-    const value = 'testing';
-    chrome.storage.local.set({ testing: value }).then(() => {
-      console.log(`${value} is set as value`);
-    });
+    chrome.runtime
+      .sendMessage({ type: 'popup-opened' })
+      .then((res) => console.log({ res }));
   }, []);
 
   return (

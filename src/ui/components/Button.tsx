@@ -3,11 +3,17 @@ import '../../styles/Button.scss';
 
 type ButtonProps = {
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export default function Button({
   children,
-  className
+  className,
+  onClick
 }: PropsWithChildren<ButtonProps>) {
-  return <button className={`rounded-button ${className}`}>{children}</button>;
+  return (
+    <button onClick={onClick} className={`rounded-button ${className}`}>
+      {children}
+    </button>
+  );
 }
