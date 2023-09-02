@@ -14,6 +14,8 @@ export default function Settings({ setCurrentView }: SettingsProps) {
     setHours(value[0]);
   };
 
+  const TAGS = Array.from({ length: 50 }).map(() => `www.sdfasdf.com`);
+
   return (
     <div className="settings-view">
       <button onClick={() => setCurrentView('tabs')}>Go Home</button>
@@ -23,10 +25,17 @@ export default function Settings({ setCurrentView }: SettingsProps) {
         min={12}
         defaultValue={24}
         step={6}
-        onValueCommit={onHoursChange}
+        // onValueCommit={onHoursChange}
+        onValueChange={onHoursChange}
       />
       <p>Do not remove tags from following URLS</p>
-      <List />
+      <List title="Ignored Urls">
+        {TAGS.map((tag, i) => (
+          <div className="Tag" key={i}>
+            {tag}
+          </div>
+        ))}
+      </List>
     </div>
   );
 }

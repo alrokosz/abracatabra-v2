@@ -3,26 +3,26 @@ import * as Checkbox from '@radix-ui/react-checkbox';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { useState } from 'react';
 
-export default function PinCheckbox() {
-  const [isChecked, setIsChecked] = useState(false);
+type PinCheckBoxProps = {
+  isPinned: boolean;
+};
+
+export default function PinCheckbox({ isPinned }: PinCheckBoxProps) {
+  const Tag = isPinned ? DrawingPinFilledIcon : DrawingPinIcon;
 
   return (
     <form className="checkbox-pin">
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Checkbox.Root
-          onCheckedChange={() => setIsChecked(!isChecked)}
-          checked={isChecked}
+          // onCheckedChange={() => setIsChecked(!isChecked)}
+          checked={isPinned}
           className="CheckboxRoot"
           id="c1"
         >
           {/* <Checkbox.Indicator className="CheckboxIndicator">
             <DrawingPinIcon />
           </Checkbox.Indicator> */}
-          {isChecked ? (
-            <DrawingPinFilledIcon fill="limegreen" />
-          ) : (
-            <DrawingPinIcon fill="limegreen" />
-          )}
+          <Tag fill="limegreen" />
         </Checkbox.Root>
         <VisuallyHidden.Root>
           <label className="Label" htmlFor="c1">

@@ -1,18 +1,23 @@
 import Tab from './Tab';
+import { levenshtein } from '../../app/lib';
+import List from './List';
 
 export default function Tabs() {
   //TODO: get tabs from local storage
-  const tabs = [1, 2, 3, 4, 5];
+  const tabs = Array.from({ length: 100 }).map((el, i, arr) => {
+    return {
+      url: 'dmfgbkerjg;qoejv;oherg;ow;oerhg;oehrgoqergoqheg',
+      tabId: i,
+      isPinned: i % 2 === 0
+    };
+  });
   return (
-    <section>
-      <h1>Saved Tabs</h1>
-      {tabs.map((tab) => (
-        <Tab
-          tabId={tab}
-          url={'https://developer.chrome.com/docs/extensions/mv3/'}
-          starred={tab % 2 === 0}
-        />
-      ))}
+    <section style={{ display: 'flex', flexDirection: 'column' }}>
+      <List title="Saved Tabs">
+        {tabs.map(({ tabId, url, isPinned }) => (
+          <Tab key={tabId} tabId={tabId} url={url} isPinned={isPinned} />
+        ))}
+      </List>
     </section>
   );
 }

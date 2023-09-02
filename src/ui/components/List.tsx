@@ -1,19 +1,23 @@
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import '../../styles/List.scss';
+import { PropsWithChildren } from 'react';
 
-export default function List() {
+type ListProps = {
+  title?: string;
+};
+
+export default function List({
+  children,
+  title
+}: PropsWithChildren<ListProps>) {
   const TAGS = Array.from({ length: 50 }).map((_, i, a) => `www.sdfasdf.com`);
   return (
     <div className="List">
       <ScrollArea.Root className="ScrollAreaRoot">
         <ScrollArea.Viewport className="ScrollAreaViewport">
           <div style={{ padding: '15px 0 0 0' }}>
-            <div className="Text">Ignored URL's</div>
-            {TAGS.map((tag) => (
-              <div className="Tag" key={tag}>
-                {tag}
-              </div>
-            ))}
+            <div className="Text">{title}</div>
+            {children}
           </div>
         </ScrollArea.Viewport>
         <ScrollArea.Scrollbar

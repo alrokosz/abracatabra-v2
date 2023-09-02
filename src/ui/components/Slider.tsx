@@ -7,7 +7,8 @@ type SliderProps = {
   defaultValue: number;
   step?: number;
   orientation?: string;
-  onValueCommit: (value: number[]) => void;
+  onValueCommit?: (value: number[]) => void;
+  onValueChange: (value: number[]) => void;
 };
 
 export default function ({
@@ -16,7 +17,7 @@ export default function ({
   defaultValue,
   step = 1,
   orientation = 'vertical',
-  onValueCommit
+  onValueChange
 }: SliderProps) {
   return (
     <form className="slider">
@@ -26,7 +27,7 @@ export default function ({
         max={max}
         min={min}
         step={step}
-        onValueCommit={(value) => onValueCommit(value)}
+        onValueChange={(value) => onValueChange(value)}
       >
         <Slider.Track className="SliderTrack">
           <Slider.Range className="SliderRange" />

@@ -3,14 +3,14 @@ import PinCheckbox from './PinCheckbox';
 type TabProps = {
   tabId: number;
   url: string;
-  starred: boolean;
+  isPinned: boolean;
 };
 
-export default function Tab({ tabId, url, starred }: TabProps) {
+export default function Tab({ tabId, url, isPinned }: TabProps) {
   return (
     <div className="tab">
-      <PinCheckbox />
-      <span> | </span>
+      <PinCheckbox isPinned={isPinned} />
+      <span>|</span>
       <a href={url}>{url}</a>
     </div>
   );
