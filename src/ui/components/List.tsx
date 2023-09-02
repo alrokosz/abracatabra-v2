@@ -16,7 +16,7 @@ export default function List({
       <ScrollArea.Root className="ScrollAreaRoot">
         <ScrollArea.Viewport className="ScrollAreaViewport">
           <div style={{ padding: '15px 0 0 0' }}>
-            <div className="Text">{title}</div>
+            {title && <div className="Text">{title}</div>}
             {children}
           </div>
         </ScrollArea.Viewport>
