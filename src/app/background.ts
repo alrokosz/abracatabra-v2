@@ -1,11 +1,43 @@
 interface RuntimeMessage {
-  type: 'popup-opened' | 'settings-changed' | 'save-and-close';
+  type:
+    | 'popup-opened'
+    | 'save-and-close'
+    | 'isOn-changed'
+    | 'ignored-domains-changed'
+    | 'remove-time-changed';
   payload?: unknown;
 }
 
+const singleHour = 3600000;
+console.log(typeof Date.now());
+let hours = 24;
+let hoursInMilliseconds = hours * singleHour;
+console.log(hoursInMilliseconds);
+
+const initialSavedTabs = Array.from({ length: 50 }).map((el, i) => {
+  return { isPinned: i % 2 === 0, url: 'youtube.com', savedAt: 1693279143245 };
+});
+
+const initialIgnoredDomains = Array.from({ length: 50 }).map(
+  () => `www.youtube.com`
+);
+
+type SavedTab = {
+  isPinned: boolean;
+  url: string;
+  savedAt: number;
+};
+
+console.log('running backround script');
+
 const CURRENT_TABS = 'abracatabraCurrentTabs';
-const USER_SETTINGS = 'abracatabraUserSettings';
+const IS_ON = 'abracatbraIsOn';
+const IGNORED_DOMAINS = 'abracatbraIgnoredDomains';
 const SAVED_TABS = 'abracatabraSavedTabs';
+let isOn: boolean;
+let ignoredDomains: string[];
+let savedTabs: SavedTab[];
+let currentTabs;
 
 // get all tabs on first load of chrome extesion and add them to storage with timestamp
 chrome.tabs.query({}, (tabs) => {
@@ -17,44 +49,58 @@ chrome.tabs.query({}, (tabs) => {
   chrome.storage.local.set({
     [CURRENT_TABS]: curTabs
   });
+  currentTabs = curTabs;
 });
 
-//set initial user settings
-chrome.storage.local.set({
-  [USER_SETTINGS]: { isOn: false, ignoredDomains: [] }
-});
+//get initial user settings if there are any
+chrome.storage.local.get(IS_ON).then((res) => console.log(res));
+chrome.storage.local
+  .get(IGNORED_DOMAINS)
+  .then((res) => console.log('ignored domains = ', res));
 
 // TODO: remove later
 chrome.storage.local.set({
-  [SAVED_TABS]: [
-    { isPinned: true, url: 'youtube.com', savedAt: '1693279143245' },
-    { isPinned: true, url: 'youtube.com', savedAt: '1693279143249' }
-  ]
+  [SAVED_TABS]: initialSavedTabs
 });
 
-const onPopupOpened = async () => {
-  const savedTabs = await chrome.storage.local.get(SAVED_TABS);
-  const settings = await chrome.storage.local.get(USER_SETTINGS);
-  return { settings, savedTabs };
-};
+chrome.storage.local.get(SAVED_TABS).then((res) => {
+  savedTabs = res[SAVED_TABS];
+  console.log({ savedTabs });
+});
+
+ignoredDomains = initialIgnoredDomains;
 
 chrome.runtime.onMessage.addListener(
   async (message: RuntimeMessage, sender, sendResponse) => {
     switch (message.type) {
       case 'popup-opened':
-        const stuff = await onPopupOpened();
-        console.log(stuff);
-        sendResponse({ stuff });
+        sendResponse({ isOn, ignoredDomains, savedTabs });
         break;
 
       case 'save-and-close':
         saveAndCloseTab();
         break;
-      case 'settings-changed':
-        chrome.storage.local.set({ [USER_SETTINGS]: message.payload });
+      case 'isOn-changed':
+        chrome.storage.local.set({
+          [IS_ON]: message.payload
+        });
+        isOn = message.payload as boolean;
+        console.log({ isOn });
+        break;
+      case 'ignored-domains-changed':
+        chrome.storage.local.set({
+          [IGNORED_DOMAINS]: message.payload
+        });
+        ignoredDomains = message.payload as string[];
+        console.log({ ignoredDomains });
+        break;
+      case 'remove-time-changed':
+        hours = message.payload as number;
+        console.log({ hours });
         break;
 
       default:
+        console.warn('message sent with no corresponding case');
         break;
     }
   }
@@ -100,13 +146,14 @@ const saveAndCloseTab = async () => {
   });
   // TODO: see if this await below can be removed
   await chrome.tabs.remove(storage[0].id);
-  const tabs = await chrome.storage.local.get(SAVED_TABS);
-  tabs[SAVED_TABS].push({
-    isPinned: false,
-    url: storage[0].url,
-    savedAt: Date.now()
-  });
+  // const tabs = await chrome.storage.local.get(SAVED_TABS);
+  // tabs[SAVED_TABS].push({
+  //   isPinned: false,
+  //   url: storage[0].url,
+  //   savedAt: Date.now()
+  // });
+  savedTabs.push({ isPinned: false, url: storage[0].url, savedAt: Date.now() });
   chrome.storage.local.set({
-    [SAVED_TABS]: tabs[SAVED_TABS]
+    [SAVED_TABS]: savedTabs
   });
 };

@@ -1,12 +1,12 @@
 import PinCheckbox from './PinCheckbox';
 
 type TabProps = {
-  tabId: number;
+  savedAt: number;
   url: string;
   isPinned: boolean;
 };
 
-export default function Tab({ tabId, url, isPinned }: TabProps) {
+export default function Tab({ savedAt, url, isPinned }: TabProps) {
   return (
     <div className="tab">
       <PinCheckbox isPinned={isPinned} />

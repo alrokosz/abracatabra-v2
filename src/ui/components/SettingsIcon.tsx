@@ -14,10 +14,6 @@ export default function SettingsIcon({
 }: SettingsIcon) {
   const Icon = currentView === 'tabs' ? GearIcon : HomeIcon;
 
-  useEffect(() => {
-    chrome.runtime.sendMessage({ type: 'icon-switched' });
-  }, [Icon]);
-
   return (
     <button
       onClick={() => {

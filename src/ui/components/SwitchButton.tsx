@@ -1,9 +1,16 @@
 import * as Switch from '@radix-ui/react-switch';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../styles/popup.scss';
 
-export default function SwitchButton() {
-  const [isChecked, setIsChecked] = useState(false);
+export default function SwitchButton({ isOn }: { isOn: boolean }) {
+  const [isChecked, setIsChecked] = useState(isOn);
+
+  useEffect(() => {
+    chrome.runtime.sendMessage({
+      type: 'isOn-changed',
+      payload: { isOn: isChecked }
+    });
+  }, [isChecked]);
 
   return (
     <form className="on-off-switch">

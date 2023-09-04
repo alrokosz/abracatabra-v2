@@ -7,14 +7,20 @@ type PinCheckBoxProps = {
   isPinned: boolean;
 };
 
-export default function PinCheckbox({ isPinned }: PinCheckBoxProps) {
+export default function PinCheckbox({ isPinned: pin }: PinCheckBoxProps) {
+  const [isPinned, setIsPinned] = useState(pin);
   const Tag = isPinned ? DrawingPinFilledIcon : DrawingPinIcon;
+
+  const onCheckedChange = () => {
+    setIsPinned(!isPinned);
+    // TODO: add runtime message for changed pin
+  };
 
   return (
     <form className="checkbox-pin">
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Checkbox.Root
-          // onCheckedChange={() => setIsChecked(!isChecked)}
+          onCheckedChange={onCheckedChange}
           checked={isPinned}
           className="CheckboxRoot"
           id="c1"

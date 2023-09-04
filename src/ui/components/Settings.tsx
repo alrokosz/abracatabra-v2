@@ -4,17 +4,24 @@ import List from './List';
 
 type SettingsProps = {
   setCurrentView: Dispatch<SetStateAction<string>>;
+  ignoredDomains: string[];
 };
 
-export default function Settings({ setCurrentView }: SettingsProps) {
+export default function Settings({
+  setCurrentView,
+  ignoredDomains
+}: SettingsProps) {
   const [hours, setHours] = useState(24);
 
   const onHoursChange = (value: number[]) => {
-    console.log(value);
     setHours(value[0]);
+    chrome.runtime.sendMessage({
+      type: 'remove-time-changed',
+      payload: value[0]
+    });
   };
 
-  const TAGS = Array.from({ length: 50 }).map(() => `www.sdfasdf.com`);
+  const TAGS = Array.from({ length: 50 }).map(() => `www.youtube.com`);
 
   return (
     <div className="settings-view">
