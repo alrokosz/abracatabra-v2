@@ -9,23 +9,28 @@ interface RuntimeMessage {
 }
 
 const singleHour = 3600000;
-console.log(typeof Date.now());
 let hours = 24;
 let hoursInMilliseconds = hours * singleHour;
-console.log(hoursInMilliseconds);
+console.log({ hoursInMilliseconds });
 
 const initialSavedTabs = Array.from({ length: 50 }).map((el, i) => {
-  return { isPinned: i % 2 === 0, url: 'youtube.com', savedAt: 1693279143245 };
+  return {
+    isPinned: i % 2 === 0,
+    url: 'youtube.com',
+    savedAt: 1693279143245,
+    id: Math.random()
+  };
 });
 
 const initialIgnoredDomains = Array.from({ length: 50 }).map(
-  () => `www.youtube.com`
+  (el, i) => `www.youtube${i}.com`
 );
 
 type SavedTab = {
   isPinned: boolean;
   url: string;
   savedAt: number;
+  id: number;
 };
 
 console.log('running backround script');
@@ -152,7 +157,12 @@ const saveAndCloseTab = async () => {
   //   url: storage[0].url,
   //   savedAt: Date.now()
   // });
-  savedTabs.push({ isPinned: false, url: storage[0].url, savedAt: Date.now() });
+  savedTabs.push({
+    isPinned: false,
+    url: storage[0].url,
+    savedAt: Date.now(),
+    id: Math.random()
+  });
   chrome.storage.local.set({
     [SAVED_TABS]: savedTabs
   });

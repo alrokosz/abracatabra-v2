@@ -8,7 +8,7 @@ type SliderProps = {
   step?: number;
   orientation?: string;
   onValueCommit?: (value: number[]) => void;
-  onValueChange: (value: number[]) => void;
+  onValueChange?: (value: number[]) => void;
 };
 
 export default function ({

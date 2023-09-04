@@ -5,15 +5,28 @@ import { useState } from 'react';
 
 type PinCheckBoxProps = {
   isPinned: boolean;
+  setSavedTabs: React.Dispatch<React.SetStateAction<SavedTab[]>>;
+  id: number;
 };
 
-export default function PinCheckbox({ isPinned: pin }: PinCheckBoxProps) {
+export default function PinCheckbox({
+  isPinned: pin,
+  setSavedTabs,
+  id
+}: PinCheckBoxProps) {
   const [isPinned, setIsPinned] = useState(pin);
   const Tag = isPinned ? DrawingPinFilledIcon : DrawingPinIcon;
 
   const onCheckedChange = () => {
     setIsPinned(!isPinned);
-    // TODO: add runtime message for changed pin
+    setSavedTabs((savedTabs) => {
+      return savedTabs.map((tab) => {
+        if (tab.id === id) {
+          tab.isPinned = !isPinned;
+        }
+        return tab;
+      });
+    });
   };
 
   return (
@@ -25,9 +38,6 @@ export default function PinCheckbox({ isPinned: pin }: PinCheckBoxProps) {
           className="CheckboxRoot"
           id="c1"
         >
-          {/* <Checkbox.Indicator className="CheckboxIndicator">
-            <DrawingPinIcon />
-          </Checkbox.Indicator> */}
           <Tag fill="limegreen" />
         </Checkbox.Root>
         <VisuallyHidden.Root>

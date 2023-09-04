@@ -33,7 +33,7 @@ export default function App() {
       <Header isOn={isOn} />
       <hr className="line" />
       {currentView === 'tabs' ? (
-        <Tabs savedTabs={savedTabs} />
+        <Tabs setSavedTabs={setSavedTabs} savedTabs={savedTabs} />
       ) : (
         <Settings
           ignoredDomains={ignoredDomains}
