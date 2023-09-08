@@ -3,6 +3,7 @@ import { levenshtein } from '../../app/lib';
 import List from './List';
 import SearchBar from './SearchBar';
 import { useState } from 'react';
+import { DrawingPinIcon, DrawingPinFilledIcon } from '@radix-ui/react-icons';
 
 type TabsProps = {
   savedTabs: SavedTab[];
@@ -24,12 +25,21 @@ export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
         padding: '0 12px 12px 12px'
       }}
     >
-      <h1>Saved Tabs</h1>
-      <SearchBar
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        onChange={onSearchChange}
-      />
+      <h1 style={{ alignSelf: 'center' }}>Saved Tabs</h1>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center'
+        }}
+      >
+        <DrawingPinIcon height={25} width={25} />
+        <SearchBar
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          onChange={onSearchChange}
+        />
+      </div>
       <List>
         {savedTabs?.map(({ savedAt, url, isPinned, id }) => (
           <Tab

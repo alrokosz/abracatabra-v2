@@ -44,7 +44,7 @@ export default function PinCheckbox({
           </Checkbox.Root>
           <VisuallyHidden.Root>
             <label className="Label" htmlFor="c1">
-              save to pinned url's
+              save to pinned urls
             </label>
           </VisuallyHidden.Root>
         </div>

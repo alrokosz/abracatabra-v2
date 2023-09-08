@@ -131,6 +131,8 @@ html {
   padding: 2px 0;
   a {
     text-decoration: none;
+    width: 200px;
+    overflow: hidden;
   }
 
   a:hover {

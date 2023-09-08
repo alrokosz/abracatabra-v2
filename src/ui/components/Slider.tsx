@@ -11,6 +11,7 @@ type SliderProps = {
   onValueChange?: (value: number[]) => void;
 };
 
+// eslint-disable-next-line react/display-name
 export default function ({
   min,
   max,

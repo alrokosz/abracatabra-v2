@@ -10,6 +10,7 @@ type TooltipProps = {
   side?: 'top' | 'right' | 'bottom' | 'left';
 };
 
+// eslint-disable-next-line react/display-name
 export default function ({
   children,
   content,

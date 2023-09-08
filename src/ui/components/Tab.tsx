@@ -16,6 +16,9 @@ export default function Tab({
   setSavedTabs,
   id
 }: TabProps) {
+  const singleDay = 3600000 * 24;
+  const daysAgo = Math.floor((Date.now() - savedAt) / singleDay);
+
   return (
     <div className="tab">
       <PinCheckbox id={id} setSavedTabs={setSavedTabs} isPinned={isPinned} />
@@ -25,7 +28,16 @@ export default function Tab({
         orientation="vertical"
         style={{ margin: '0 8px' }}
       />
-      <a href={url}>{url}</a>
+      <a className="tab-anchor" href={url}>
+        {url}
+      </a>
+      <Separator.Root
+        className="SeparatorRoot"
+        decorative
+        orientation="vertical"
+        style={{ margin: '0 8px' }}
+      />
+      <div>{daysAgo}</div>
     </div>
   );
 }
