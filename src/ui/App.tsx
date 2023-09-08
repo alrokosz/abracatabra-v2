@@ -4,6 +4,7 @@ import Tabs from './components/Tabs';
 import SettingsIcon from './components/SettingsIcon';
 import { useEffect, useState } from 'react';
 import Settings from './components/Settings';
+import * as Separator from '@radix-ui/react-separator';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'tabs' | 'settings'>('tabs');
@@ -25,13 +26,17 @@ export default function App() {
   }, []);
 
   return (
-    <div className="container">
+    <>
       <SettingsIcon currentView={currentView} setCurrentView={setCurrentView} />
       <h1 className="title">
         ABRACA<span className="green">TAB</span>RA
       </h1>
       <Header isOn={isOn} />
-      <hr className="line" />
+      {/* <hr className="line" /> */}
+      <Separator.Root
+        className="SeparatorRoot"
+        style={{ color: 'black', marginTop: '10px' }}
+      />
       {currentView === 'tabs' ? (
         <Tabs setSavedTabs={setSavedTabs} savedTabs={savedTabs} />
       ) : (
@@ -40,6 +45,6 @@ export default function App() {
           setCurrentView={setCurrentView}
         />
       )}
-    </div>
+    </>
   );
 }

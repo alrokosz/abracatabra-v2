@@ -17,7 +17,13 @@ export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
   };
 
   return (
-    <section style={{ display: 'flex', flexDirection: 'column' }}>
+    <section
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '0 12px 12px 12px'
+      }}
+    >
       <h1>Saved Tabs</h1>
       <SearchBar
         searchValue={searchValue}
@@ -25,7 +31,7 @@ export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
         onChange={onSearchChange}
       />
       <List>
-        {savedTabs.map(({ savedAt, url, isPinned, id }) => (
+        {savedTabs?.map(({ savedAt, url, isPinned, id }) => (
           <Tab
             setSavedTabs={setSavedTabs}
             url={url}
