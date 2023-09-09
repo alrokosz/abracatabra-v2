@@ -1,10 +1,11 @@
 import Tab from './Tab';
 import List from './List';
 import SearchBar from './SearchBar';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { DrawingPinIcon, DrawingPinFilledIcon } from '@radix-ui/react-icons';
 import { SavedTab } from '../../types/types';
 import useFuzzy from '../../app/hooks/useFuzzy';
+import { fuzzy } from '../../app/lib';
 
 type TabsProps = {
   savedTabs: SavedTab[];
@@ -14,7 +15,22 @@ type TabsProps = {
 export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
   const [searchValue, setSearchValue] = useState('');
   const [pinIsChecked, setPinIsChecked] = useState(false);
-  const tabs = useFuzzy(savedTabs, searchValue, ['url']);
+  // TODO: maybe refactor this to be readable??? need this to have pinned tabs fisrt with search
+  const tabs = pinIsChecked
+    ? [
+        ...fuzzy(
+          savedTabs.filter((tab) => tab.isPinned),
+          searchValue,
+          ['url']
+        ),
+        ...fuzzy(
+          savedTabs.filter((tab) => !tab.isPinned),
+          searchValue,
+          ['url']
+        )
+      ]
+    : fuzzy(savedTabs, searchValue, ['url']);
+
   const Tag = pinIsChecked ? DrawingPinFilledIcon : DrawingPinIcon;
 
   const onSearchChange = (e: any) => {

@@ -1,16 +1,20 @@
 import * as Switch from '@radix-ui/react-switch';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../../styles/popup.scss';
 
-export default function SwitchButton({ isOn }: { isOn: boolean }) {
-  const [isChecked, setIsChecked] = useState(isOn);
+type SwithButtonProps = {
+  isOn: boolean;
+  setIsOn: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-  useEffect(() => {
+export default function SwitchButton({ isOn, setIsOn }: SwithButtonProps) {
+  const onCheckedChange = () => {
+    setIsOn(!isOn);
     chrome.runtime.sendMessage({
       type: 'isOn-changed',
-      payload: { isOn: isChecked }
+      payload: !isOn
     });
-  }, [isChecked]);
+  };
 
   return (
     <form className="on-off-switch">
@@ -20,10 +24,11 @@ export default function SwitchButton({ isOn }: { isOn: boolean }) {
           htmlFor="on-off-switch"
           style={{ paddingRight: 15, color: 'black' }}
         >
-          {isChecked ? <span className="green">On </span> : 'Off'}
+          {isOn ? <span className="green">On </span> : 'Off'}
         </label>
         <Switch.Root
-          onCheckedChange={() => setIsChecked(!isChecked)}
+          onCheckedChange={onCheckedChange}
+          checked={isOn}
           className="SwitchRoot"
           id="on-off-switch"
         >

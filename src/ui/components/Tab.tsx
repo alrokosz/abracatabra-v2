@@ -8,7 +8,7 @@ type TabProps = {
   url: string;
   isPinned: boolean;
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTab[]>>;
-  id: number;
+  id: string;
 };
 
 export default function Tab({
@@ -27,7 +27,7 @@ export default function Tab({
         orientation="vertical"
         style={{ margin: '0 8px' }}
       />
-      <a className="tab-anchor" href={url}>
+      <a className="tab-anchor" href={url} target="_blank">
         {url}
       </a>
       <Separator.Root

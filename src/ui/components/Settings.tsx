@@ -28,7 +28,8 @@ export default function Settings({
 
   const onIgnoredUrlSubmit = (event: any) => {
     event.preventDefault();
-    setIgnoredDomains([addUrlValue, ...ignoredDomains]);
+    if (ignoredDomains.includes(''))
+      setIgnoredDomains([addUrlValue, ...ignoredDomains]);
     setAddUrlValue('');
     chrome.runtime.sendMessage({
       type: 'ignored-domains-changed',

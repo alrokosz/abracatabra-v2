@@ -13,6 +13,7 @@ export default function App() {
   const [ignoredDomains, setIgnoredDomains] = useState<string[]>([]);
   const [savedTabs, setSavedTabs] = useState([]);
   const [idleTabTime, setIdleTabTime] = useState(24);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getInitialState = async () => {
@@ -24,9 +25,14 @@ export default function App() {
       setIgnoredDomains(ignoredDomains);
       setSavedTabs(savedTabs);
       setIdleTabTime(idleTabTime);
+      setIsLoading(false);
     };
     getInitialState();
   }, []);
+
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <>
@@ -34,7 +40,7 @@ export default function App() {
       <h1 className="title">
         ABRACA<span className="green">TAB</span>RA
       </h1>
-      <Header isOn={isOn} />
+      <Header setIsOn={setIsOn} isOn={isOn} />
       <Separator.Root
         className="SeparatorRoot"
         style={{ color: 'black', marginTop: '10px' }}

@@ -8,7 +8,7 @@ import { SavedTab } from '../../types/types';
 type PinCheckBoxProps = {
   isPinned: boolean;
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTab[]>>;
-  id: number;
+  id: string;
 };
 
 export default function PinCheckbox({
