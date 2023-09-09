@@ -10,11 +10,6 @@ interface RuntimeMessage {
   payload?: unknown;
 }
 
-const singleHour = 3600000;
-let hours = 24;
-let hoursInMilliseconds = hours * singleHour;
-console.log({ hoursInMilliseconds });
-
 const initialSavedTabs = Array.from({ length: 50 }).map((el, i) => {
   return {
     isPinned: i % 2 === 0,
@@ -41,10 +36,12 @@ const CURRENT_TABS = 'abracatabraCurrentTabs';
 const IS_ON = 'abracatbraIsOn';
 const IGNORED_DOMAINS = 'abracatbraIgnoredDomains';
 const SAVED_TABS = 'abracatabraSavedTabs';
+const IDLE_TAB_TIME = 'abracatabraIdleTabTime';
 let isOn: boolean;
-let ignoredDomains: string[];
+let ignoredDomains: string[] = initialIgnoredDomains;
 let savedTabs: SavedTab[];
 let currentTabs;
+let idleTabTime = 24;
 
 // get all tabs on first load of chrome extesion and add them to storage with timestamp
 chrome.tabs.query({}, (tabs) => {
@@ -75,13 +72,11 @@ chrome.storage.local.get(SAVED_TABS).then((res) => {
   console.log({ savedTabs });
 });
 
-ignoredDomains = initialIgnoredDomains;
-
 chrome.runtime.onMessage.addListener(
   async (message: RuntimeMessage, sender, sendResponse) => {
     switch (message.type) {
       case 'popup-opened':
-        sendResponse({ isOn, ignoredDomains, savedTabs });
+        sendResponse({ isOn, ignoredDomains, savedTabs, idleTabTime });
         break;
 
       case 'save-and-close':
@@ -99,11 +94,10 @@ chrome.runtime.onMessage.addListener(
           [IGNORED_DOMAINS]: message.payload
         });
         ignoredDomains = message.payload as string[];
-        console.log({ ignoredDomains });
         break;
       case 'remove-time-changed':
-        hours = message.payload as number;
-        console.log({ hours });
+        idleTabTime = message.payload as number;
+        chrome.storage.local.set({ [IDLE_TAB_TIME]: message.payload });
         break;
 
       default:

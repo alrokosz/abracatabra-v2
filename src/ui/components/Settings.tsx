@@ -4,41 +4,60 @@ import List from './List';
 import '../../styles/settings.scss';
 
 type SettingsProps = {
-  setCurrentView: Dispatch<SetStateAction<string>>;
   ignoredDomains: string[];
+  setIgnoredDomains: React.Dispatch<React.SetStateAction<string[]>>;
+  idleTabTime: number;
+  setIdleTabTime: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function Settings({
-  setCurrentView,
-  ignoredDomains
+  ignoredDomains,
+  setIgnoredDomains,
+  idleTabTime,
+  setIdleTabTime
 }: SettingsProps) {
-  const [hours, setHours] = useState(24);
+  const [addUrlValue, setAddUrlValue] = useState('');
 
   const onHoursChange = (value: number[]) => {
-    setHours(value[0]);
+    setIdleTabTime(value[0]);
     chrome.runtime.sendMessage({
       type: 'remove-time-changed',
       payload: value[0]
     });
   };
 
-  const TAGS = Array.from({ length: 50 }).map(() => `www.youtube.com`);
+  const onIgnoredUrlSubmit = (event: any) => {
+    event.preventDefault();
+    setIgnoredDomains([addUrlValue, ...ignoredDomains]);
+    setAddUrlValue('');
+    chrome.runtime.sendMessage({
+      type: 'ignored-domains-changed',
+      payload: [addUrlValue, ...ignoredDomains]
+    });
+  };
 
   return (
     <div className="settings-view">
-      <button onClick={() => setCurrentView('tabs')}>Go Home</button>
-      <p>Idle tabs will be removed after {hours} hours</p>
+      <p>Idle tabs will be removed after {idleTabTime} hours</p>
       <Slider
         max={96}
         min={12}
-        defaultValue={24}
+        // defaultValue={idleTabTime || 24}
+        value={idleTabTime || 24}
         step={6}
-        // onValueCommit={onHoursChange}
         onValueChange={onHoursChange}
       />
-      <p>Do not remove tags from following URLS</p>
-      <List title="Ignored Urls">
-        {TAGS.map((tag, i) => (
+      <h1>Ignored urls</h1>
+      <form onSubmit={onIgnoredUrlSubmit}>
+        <input
+          value={addUrlValue}
+          onChange={(e) => setAddUrlValue(e.target.value)}
+          type="text"
+        />
+        <button type="submit">add url</button>
+      </form>
+      <List>
+        {ignoredDomains.map((tag, i) => (
           <div className="Tag" key={i}>
             {tag}
           </div>

@@ -4,11 +4,12 @@ import '../../styles/Slider.scss';
 type SliderProps = {
   min: number;
   max: number;
-  defaultValue: number;
+  defaultValue?: number;
   step?: number;
   orientation?: string;
   onValueCommit?: (value: number[]) => void;
   onValueChange?: (value: number[]) => void;
+  value: number;
 };
 
 // eslint-disable-next-line react/display-name
@@ -18,6 +19,7 @@ export default function ({
   defaultValue,
   step = 1,
   orientation = 'vertical',
+  value,
   onValueChange
 }: SliderProps) {
   return (
@@ -25,6 +27,7 @@ export default function ({
       <Slider.Root
         className="SliderRoot"
         defaultValue={[defaultValue]}
+        value={[value]}
         max={max}
         min={min}
         step={step}

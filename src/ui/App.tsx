@@ -10,18 +10,20 @@ import { motion } from 'framer-motion';
 export default function App() {
   const [currentView, setCurrentView] = useState<'tabs' | 'settings'>('tabs');
   const [isOn, setIsOn] = useState(false);
-  const [ignoredDomains, setIgnoredDomains] = useState([]);
+  const [ignoredDomains, setIgnoredDomains] = useState<string[]>([]);
   const [savedTabs, setSavedTabs] = useState([]);
+  const [idleTabTime, setIdleTabTime] = useState(24);
 
   useEffect(() => {
     const getInitialState = async () => {
-      const { isOn, ignoredDomains, savedTabs } =
+      const { isOn, ignoredDomains, savedTabs, idleTabTime } =
         await chrome.runtime.sendMessage({
           type: 'popup-opened'
         });
       setIsOn(isOn);
       setIgnoredDomains(ignoredDomains);
       setSavedTabs(savedTabs);
+      setIdleTabTime(idleTabTime);
     };
     getInitialState();
   }, []);
@@ -33,7 +35,6 @@ export default function App() {
         ABRACA<span className="green">TAB</span>RA
       </h1>
       <Header isOn={isOn} />
-      {/* <hr className="line" /> */}
       <Separator.Root
         className="SeparatorRoot"
         style={{ color: 'black', marginTop: '10px' }}
@@ -49,18 +50,12 @@ export default function App() {
       >
         <Tabs setSavedTabs={setSavedTabs} savedTabs={savedTabs} />
         <Settings
+          setIdleTabTime={setIdleTabTime}
+          idleTabTime={idleTabTime}
           ignoredDomains={ignoredDomains}
-          setCurrentView={setCurrentView}
+          setIgnoredDomains={setIgnoredDomains}
         />
       </motion.div>
-      {/* {currentView === 'tabs' ? (
-        <Tabs setSavedTabs={setSavedTabs} savedTabs={savedTabs} />
-      ) : (
-        <Settings
-          ignoredDomains={ignoredDomains}
-          setCurrentView={setCurrentView}
-        />
-      )} */}
     </>
   );
 }
