@@ -1,5 +1,5 @@
 import * as AccessibleIcon from '@radix-ui/react-accessible-icon';
-import { GearIcon, HomeIcon } from '@radix-ui/react-icons';
+import { GearIcon, HomeIcon, ArrowLeftIcon } from '@radix-ui/react-icons';
 import '../../styles/SettingsIcon.scss';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
@@ -12,7 +12,7 @@ export default function SettingsIcon({
   setCurrentView,
   currentView
 }: SettingsIcon) {
-  const Icon = currentView === 'tabs' ? GearIcon : HomeIcon;
+  const Icon = currentView === 'tabs' ? GearIcon : ArrowLeftIcon;
 
   return (
     <button

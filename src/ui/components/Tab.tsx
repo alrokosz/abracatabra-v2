@@ -1,5 +1,7 @@
 import PinCheckbox from './PinCheckbox';
 import * as Separator from '@radix-ui/react-separator';
+import { SavedTab } from '../../types/types';
+import { daysAgo } from '../../app/lib';
 
 type TabProps = {
   savedAt: number;
@@ -16,9 +18,6 @@ export default function Tab({
   setSavedTabs,
   id
 }: TabProps) {
-  const singleDay = 3600000 * 24;
-  const daysAgo = Math.floor((Date.now() - savedAt) / singleDay);
-
   return (
     <div className="tab">
       <PinCheckbox id={id} setSavedTabs={setSavedTabs} isPinned={isPinned} />
@@ -37,7 +36,7 @@ export default function Tab({
         orientation="vertical"
         style={{ margin: '0 8px' }}
       />
-      <div>{daysAgo}</div>
+      <div>{daysAgo(savedAt)}</div>
     </div>
   );
 }

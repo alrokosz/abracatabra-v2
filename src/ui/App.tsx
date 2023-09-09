@@ -5,6 +5,7 @@ import SettingsIcon from './components/SettingsIcon';
 import { useEffect, useState } from 'react';
 import Settings from './components/Settings';
 import * as Separator from '@radix-ui/react-separator';
+import { motion } from 'framer-motion';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'tabs' | 'settings'>('tabs');
@@ -37,14 +38,29 @@ export default function App() {
         className="SeparatorRoot"
         style={{ color: 'black', marginTop: '10px' }}
       />
-      {currentView === 'tabs' ? (
+
+      <motion.div
+        style={{ display: 'flex', width: '200%' }}
+        initial={false}
+        className="tabs-settings-wrapper"
+        animate={{
+          x: currentView === 'settings' ? '-50%' : 0
+        }}
+      >
+        <Tabs setSavedTabs={setSavedTabs} savedTabs={savedTabs} />
+        <Settings
+          ignoredDomains={ignoredDomains}
+          setCurrentView={setCurrentView}
+        />
+      </motion.div>
+      {/* {currentView === 'tabs' ? (
         <Tabs setSavedTabs={setSavedTabs} savedTabs={savedTabs} />
       ) : (
         <Settings
           ignoredDomains={ignoredDomains}
           setCurrentView={setCurrentView}
         />
-      )}
+      )} */}
     </>
   );
 }

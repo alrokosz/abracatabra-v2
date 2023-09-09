@@ -16,6 +16,8 @@ body {
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  width: 400px;
+  height: 400px;
 }
 
 img,
@@ -47,11 +49,6 @@ h6 {
 #root,
 #__next {
   isolation: isolate;
-}
-
-html {
-  width: 300px;
-  height: 400px;
 }
 
 .green {

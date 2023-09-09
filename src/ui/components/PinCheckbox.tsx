@@ -3,6 +3,7 @@ import * as Checkbox from '@radix-ui/react-checkbox';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { useState } from 'react';
 import Tooltip from './Tooltip';
+import { SavedTab } from '../../types/types';
 
 type PinCheckBoxProps = {
   isPinned: boolean;
@@ -11,15 +12,13 @@ type PinCheckBoxProps = {
 };
 
 export default function PinCheckbox({
-  isPinned: pin,
+  isPinned,
   setSavedTabs,
   id
 }: PinCheckBoxProps) {
-  const [isPinned, setIsPinned] = useState(pin);
   const Tag = isPinned ? DrawingPinFilledIcon : DrawingPinIcon;
 
   const onCheckedChange = () => {
-    setIsPinned(!isPinned);
     setSavedTabs((savedTabs) => {
       return savedTabs.map((tab) => {
         if (tab.id === id) {
@@ -40,7 +39,7 @@ export default function PinCheckbox({
             className="CheckboxRoot"
             id="c1"
           >
-            <Tag fill="limegreen" />
+            <Tag color="green" />
           </Checkbox.Root>
           <VisuallyHidden.Root>
             <label className="Label" htmlFor="c1">

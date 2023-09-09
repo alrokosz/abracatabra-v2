@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import Slider from './Slider';
 import List from './List';
+import '../../styles/settings.scss';
 
 type SettingsProps = {
   setCurrentView: Dispatch<SetStateAction<string>>;

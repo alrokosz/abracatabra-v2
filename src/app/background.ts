@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 interface RuntimeMessage {
   type:
     | 'popup-opened'
@@ -18,7 +20,7 @@ const initialSavedTabs = Array.from({ length: 50 }).map((el, i) => {
     isPinned: i % 2 === 0,
     url: 'youtube.com',
     savedAt: 1693279143245,
-    id: Math.random()
+    id: uuidv4()
   };
 });
 
@@ -167,3 +169,5 @@ const saveAndCloseTab = async () => {
     [SAVED_TABS]: savedTabs
   });
 };
+
+setInterval(() => console.log(isOn ? 'On' : 'Off'), 6000);
