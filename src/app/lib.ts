@@ -17,7 +17,7 @@ export function daysAgo(time: number) {
 
   // 168 hours in a week
   const weeks = Math.floor(hoursSavedAgo / 168);
-  if (hoursSavedAgo > 168) {
+  if (hoursSavedAgo >= 168) {
     return `${weeks} week${weeks > 1 ? 's' : ''}`;
   }
 }
