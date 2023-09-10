@@ -43,7 +43,6 @@ export default function Settings({
       <Slider
         max={96}
         min={12}
-        // defaultValue={idleTabTime || 24}
         value={idleTabTime || 24}
         step={6}
         onValueChange={onHoursChange}

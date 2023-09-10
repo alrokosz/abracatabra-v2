@@ -10,18 +10,23 @@ interface RuntimeMessage {
   payload?: unknown;
 }
 
-const initialSavedTabs = Array.from({ length: 50 }).map((el, i) => {
-  return {
-    isPinned: i % 2 === 0,
-    url: 'youtube.com',
-    savedAt: 1693279143245,
-    id: uuidv4()
-  };
-});
+// const initialSavedTabs = Array.from({ length: 50 }).map((el, i) => {
+//   return {
+//     isPinned: i % 2 === 0,
+//     url: 'youtube.com',
+//     savedAt: 1693279143245,
+//     id: uuidv4()
+//   };
+// });
 
 const initialIgnoredDomains = Array.from({ length: 50 }).map(
   (el, i) => `www.youtube${i}.com`
 );
+
+type CurrentTab = {
+  timestamp: number;
+  id: number;
+};
 
 type SavedTab = {
   isPinned: boolean;
@@ -39,17 +44,16 @@ const SAVED_TABS = 'abracatabraSavedTabs';
 const IDLE_TAB_TIME = 'abracatabraIdleTabTime';
 let isOn: boolean;
 let ignoredDomains: string[] = initialIgnoredDomains;
-let savedTabs: SavedTab[] = initialSavedTabs;
-let currentTabs;
+let savedTabs: SavedTab[];
+let currentTabs: CurrentTab[];
 let idleTabTime = 24;
 
 // get all tabs on first load of chrome extesion and add them to storage with timestamp
 chrome.tabs.query({}, (tabs) => {
-  const curTabs = {};
+  const curTabs: CurrentTab[] = [];
   tabs.forEach(({ id, url }) => {
-    Object.assign(curTabs, { [id]: { url, timestamp: Date.now() } });
+    curTabs.push({ timestamp: Date.now(), id });
   });
-  console.log(curTabs, typeof curTabs);
   chrome.storage.local.set({
     [CURRENT_TABS]: curTabs
   });
@@ -106,21 +110,18 @@ chrome.runtime.onMessage.addListener(
 );
 
 const updateCurrentTabs = async (activeInfo: chrome.tabs.TabActiveInfo) => {
-  const tabString = await chrome.storage.local.get(CURRENT_TABS);
-  const tabs = tabString[CURRENT_TABS];
+  const storage = await chrome.storage.local.get(CURRENT_TABS);
+  const tabs = storage[CURRENT_TABS];
   console.log(tabs);
   // adds new tabs to storage if they don't exist
-  if (!tabs[activeInfo.tabId]) {
-    const tabInfo = await chrome.tabs.get(activeInfo.tabId);
-    console.log({ url: tabInfo.url });
-    tabs[tabInfo.id] = {
-      url: tabInfo.url,
-      timestamp: Date.now()
-    };
+  if (currentTabs.every((tab) => activeInfo.tabId !== tab.id)) {
+    currentTabs.push({
+      timestamp: Date.now(),
+      id: activeInfo.tabId
+    });
   }
-  tabs[activeInfo.tabId].timestamp = Date.now();
   chrome.storage.local.set({
-    [CURRENT_TABS]: tabs
+    [CURRENT_TABS]: currentTabs
   });
 };
 
@@ -128,14 +129,16 @@ chrome.tabs.onActivated.addListener(updateCurrentTabs);
 
 // updates stored tab info when a tab is removed
 chrome.tabs.onRemoved.addListener(async (tabId) => {
-  const tabString = await chrome.storage.local.get(CURRENT_TABS);
-  const tabs = tabString[CURRENT_TABS];
-  if (tabs.hasOwnProperty(tabId)) {
-    delete tabs[tabId];
+  const storage = await chrome.storage.local.get(CURRENT_TABS);
+  const tabs = storage[CURRENT_TABS];
+  currentTabs.forEach(({ id }, i) => {
+    if (id === tabId) {
+      currentTabs.splice(i, 1);
+    }
     chrome.storage.local.set({
-      [CURRENT_TABS]: tabs
+      [CURRENT_TABS]: currentTabs
     });
-  }
+  });
 });
 
 const saveAndCloseTab = async () => {
@@ -157,4 +160,24 @@ const saveAndCloseTab = async () => {
   });
 };
 
-setInterval(() => console.log(isOn ? 'On' : 'Off'), 6000);
+const singleHour = 3600000;
+const removeIdleTabs = () => {
+  currentTabs.forEach(async ({ timestamp, id }) => {
+    const now = Date.now();
+    const { url } = await chrome.tabs.get(id);
+    if (now - timestamp > singleHour * idleTabTime) {
+      savedTabs.unshift({
+        url,
+        isPinned: false,
+        savedAt: now,
+        id: uuidv4()
+      });
+      chrome.tabs.remove(id);
+      chrome.storage.local.set({
+        [SAVED_TABS]: savedTabs
+      });
+    }
+  });
+};
+
+setInterval(() => console.log({ currentTabs }), 1000);

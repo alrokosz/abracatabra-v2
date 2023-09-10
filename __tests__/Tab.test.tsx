@@ -11,10 +11,27 @@ window.ResizeObserver = jest.fn().mockImplementation(() => ({
   unobserve: jest.fn()
 }));
 
-const props = { tabId: 1, isPinned: false, url: 'sdfgsdfg' };
+// @ts-ignore
+global.chrome = { runtime: { sendMessage: () => null } };
+
+function setup(NewProps = {}) {
+  const props = {
+    id: 'to-la-zy-to-im-po-rt-uu-id',
+    isPinned: false,
+    url: 'sdfgsdfg',
+    setSavedTabs: (): any => null,
+    savedAt: Date.now(),
+    ...NewProps
+  };
+  return {
+    user: userEvent.setup(),
+    props,
+    ...render(<Tab {...props} />)
+  };
+}
 
 test('Tab is in the document', async () => {
-  render(<Tab {...props} />);
+  const { props } = setup();
   const tab = screen.getByText(props.url);
   expect(tab).toBeInTheDocument();
 });

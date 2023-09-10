@@ -27,7 +27,12 @@ export default function Tab({
         orientation="vertical"
         style={{ margin: '0 8px' }}
       />
-      <a className="tab-anchor" href={url} target="_blank">
+      <a
+        style={{ whiteSpace: 'nowrap' }}
+        className="tab-anchor"
+        href={url}
+        target="_blank"
+      >
         {url}
       </a>
       <Separator.Root

@@ -1,10 +1,5 @@
-import leven from 'leven';
 import Fuse from 'fuse.js';
 import { SavedTab } from '../types/types';
-
-export function levenshtein(str1: string, str2: string, n: number): boolean {
-  return leven(str1, str2) > n;
-}
 
 export function daysAgo(time: number) {
   const singleHour = 3600000;
