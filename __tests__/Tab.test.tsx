@@ -12,7 +12,19 @@ window.ResizeObserver = jest.fn().mockImplementation(() => ({
 }));
 
 // @ts-ignore
-global.chrome = { runtime: { sendMessage: () => null } };
+global.chrome = {
+  // @ts-ignore
+  runtime: {
+    // @ts-ignore
+    sendMessage: () =>
+      Promise.resolve({
+        isOn: true,
+        ignoredDomains: [],
+        savedTabs: [],
+        idleTabTime: 24
+      })
+  }
+};
 
 function setup(NewProps = {}) {
   const props = {
