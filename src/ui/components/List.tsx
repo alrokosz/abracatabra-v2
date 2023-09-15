@@ -4,18 +4,21 @@ import { PropsWithChildren } from 'react';
 
 type ListProps = {
   title?: string;
+  height?: number;
 };
 
 export default function List({
   children,
+  height,
   title
 }: PropsWithChildren<ListProps>) {
   const TAGS = Array.from({ length: 50 }).map((_, i, a) => `www.sdfasdf.com`);
+  const style = height ? { height: `${height}px` } : {};
   return (
     <div className="List">
-      <ScrollArea.Root className="ScrollAreaRoot">
+      <ScrollArea.Root style={style} className="ScrollAreaRoot">
         <ScrollArea.Viewport className="ScrollAreaViewport">
-          <div style={{ padding: '15px 0 0 0' }}>
+          <div>
             {title && <div className="Text">{title}</div>}
             {children}
           </div>

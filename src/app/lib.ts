@@ -7,7 +7,7 @@ export function daysAgo(time: number) {
   const hoursSavedAgo = differenceInMs / singleHour;
 
   if (hoursSavedAgo < 24) {
-    return 'Today';
+    return 'New';
   }
 
   const days = Math.floor(hoursSavedAgo / 24);

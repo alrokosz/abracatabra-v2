@@ -28,8 +28,8 @@ export default function Settings({
 
   const onIgnoredUrlSubmit = (event: any) => {
     event.preventDefault();
-    if (ignoredDomains.includes(''))
-      setIgnoredDomains([addUrlValue, ...ignoredDomains]);
+    if (ignoredDomains.includes(addUrlValue)) return;
+    setIgnoredDomains([addUrlValue, ...ignoredDomains]);
     setAddUrlValue('');
     chrome.runtime.sendMessage({
       type: 'ignored-domains-changed',
@@ -50,13 +50,14 @@ export default function Settings({
       <h1>Ignored urls</h1>
       <form onSubmit={onIgnoredUrlSubmit}>
         <input
+          min={1}
           value={addUrlValue}
           onChange={(e) => setAddUrlValue(e.target.value)}
           type="text"
         />
         <button type="submit">add url</button>
       </form>
-      <List>
+      <List height={160}>
         {ignoredDomains.map((tag, i) => (
           <div className="Tag" key={i}>
             {tag}

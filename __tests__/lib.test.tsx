@@ -3,7 +3,7 @@ import { daysAgo } from '../src/app/lib';
 test('daysAgo pluralizes and accounts for days and weeks', () => {
   const oneHour = 3600000;
   const oneDay = oneHour * 24;
-  expect(daysAgo(Date.now())).toBe('Today');
+  expect(daysAgo(Date.now())).toBe('New');
   expect(daysAgo(Date.now() - oneDay)).toBe('1 day');
   expect(daysAgo(Date.now() - oneDay * 2)).toBe('2 days');
   expect(daysAgo(Date.now() - oneDay * 3)).toBe('3 days');

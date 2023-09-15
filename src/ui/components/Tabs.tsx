@@ -4,7 +4,6 @@ import SearchBar from './SearchBar';
 import { useState } from 'react';
 import { DrawingPinIcon, DrawingPinFilledIcon } from '@radix-ui/react-icons';
 import { SavedTab } from '../../types/types';
-import useFuzzy from '../../app/hooks/useFuzzy';
 import { fuzzy } from '../../app/lib';
 
 type TabsProps = {
@@ -15,7 +14,7 @@ type TabsProps = {
 export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
   const [searchValue, setSearchValue] = useState('');
   const [pinIsChecked, setPinIsChecked] = useState(false);
-  // TODO: maybe refactor this to be readable??? need this to have pinned tabs first with search
+  // TODO: maybe refactor this to be readable??? need this to have pinned tabs appear first with search
   const tabs = pinIsChecked
     ? [
         ...fuzzy(
@@ -42,11 +41,10 @@ export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        padding: '0 12px 12px 12px',
+        padding: '0 12px 0px 12px',
         width: '100%'
       }}
     >
-      <h1 style={{ alignSelf: 'center' }}>Saved Tabs</h1>
       <div
         style={{
           display: 'flex',
@@ -66,7 +64,7 @@ export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
           onChange={onSearchChange}
         />
       </div>
-      <List>
+      <List height={230}>
         {tabs?.map(({ url, isPinned, savedAt, id }) => {
           return (
             <Tab
