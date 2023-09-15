@@ -15,7 +15,7 @@ type TabsProps = {
 export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
   const [searchValue, setSearchValue] = useState('');
   const [pinIsChecked, setPinIsChecked] = useState(false);
-  // TODO: maybe refactor this to be readable??? need this to have pinned tabs fisrt with search
+  // TODO: maybe refactor this to be readable??? need this to have pinned tabs first with search
   const tabs = pinIsChecked
     ? [
         ...fuzzy(
@@ -70,6 +70,7 @@ export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
         {tabs?.map(({ url, isPinned, savedAt, id }) => {
           return (
             <Tab
+              savedTabs={savedTabs}
               setSavedTabs={setSavedTabs}
               url={url}
               isPinned={isPinned}

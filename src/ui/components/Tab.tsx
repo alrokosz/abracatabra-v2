@@ -1,13 +1,17 @@
 import PinCheckbox from './PinCheckbox';
-import * as Separator from '@radix-ui/react-separator';
 import { SavedTab } from '../../types/types';
 import { daysAgo } from '../../app/lib';
+import Box from './Box';
+import { TrashIcon } from '@radix-ui/react-icons';
+import Button from './Button';
+import '../../styles/Tab.scss';
 
 type TabProps = {
   savedAt: number;
   url: string;
   isPinned: boolean;
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTab[]>>;
+  savedTabs: SavedTab[];
   id: string;
 };
 
@@ -16,17 +20,24 @@ export default function Tab({
   url,
   isPinned,
   setSavedTabs,
+  savedTabs,
   id
 }: TabProps) {
+  const onTrashClick = () => {
+    const newSavedTabs = savedTabs.filter((tab) => tab.id !== id);
+    setSavedTabs(newSavedTabs);
+    chrome.runtime.sendMessage({
+      type: 'update-saved-tabs',
+      payload: newSavedTabs
+    });
+  };
+
   return (
     <div className="tab">
       <PinCheckbox id={id} setSavedTabs={setSavedTabs} isPinned={isPinned} />
-      <Separator.Root
-        className="SeparatorRoot"
-        decorative
-        orientation="vertical"
-        style={{ margin: '0 8px' }}
-      />
+      <Box width={'48px'} height={'100%'} className="days-box">
+        {daysAgo(savedAt)}
+      </Box>
       <a
         style={{ whiteSpace: 'nowrap' }}
         className="tab-anchor"
@@ -35,13 +46,9 @@ export default function Tab({
       >
         {url}
       </a>
-      <Separator.Root
-        className="SeparatorRoot"
-        decorative
-        orientation="vertical"
-        style={{ margin: '0 8px' }}
-      />
-      <div>{daysAgo(savedAt)}</div>
+      <Button className="trash-button" onClick={onTrashClick}>
+        {<TrashIcon />}
+      </Button>
     </div>
   );
 }

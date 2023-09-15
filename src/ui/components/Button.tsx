@@ -12,7 +12,7 @@ export default function Button({
   onClick
 }: PropsWithChildren<ButtonProps>) {
   return (
-    <button onClick={onClick} className={`rounded-button ${className}`}>
+    <button onClick={onClick} className={`rounded-button ${className || ''}`}>
       {children}
     </button>
   );

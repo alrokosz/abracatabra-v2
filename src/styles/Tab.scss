@@ -1,0 +1,38 @@
+.tab {
+  display: flex;
+  border-top: 0.5px solid limegreen;
+  padding: 2px 0;
+  align-items: center;
+  margin-right: 12px;
+
+  a {
+    text-decoration: none;
+    width: 200px;
+    overflow: hidden;
+    color: green;
+    margin-right: auto;
+    padding-left: 6px;
+    &:visited {
+      color: forestgreen;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .trash-button {
+    // background-color: white;
+  }
+
+  .days-box {
+    margin-left: 4px;
+  }
+
+  //   a:visited {
+  //     color: forestgreen;
+  //   }
+
+  //   a:hover {
+  //     text-decoration: underline;
+  //   }
+}

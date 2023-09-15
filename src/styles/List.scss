@@ -16,14 +16,12 @@
     display: flex;
     /* ensures no selection */
     user-select: none;
-    /* disable browser handling of all panning and zooming gestures on touch devices */
-    touch-action: none;
     padding: 2px;
-    background: black;
+    background: white;
     transition: background 160ms ease-out;
   }
   .ScrollAreaScrollbar:hover {
-    background: black;
+    // background: black;
   }
   .ScrollAreaScrollbar[data-orientation='vertical'] {
     width: 10px;

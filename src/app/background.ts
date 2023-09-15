@@ -6,7 +6,8 @@ interface RuntimeMessage {
     | 'save-and-close'
     | 'isOn-changed'
     | 'ignored-domains-changed'
-    | 'remove-time-changed';
+    | 'remove-time-changed'
+    | 'update-saved-tabs';
   payload?: unknown;
 }
 
@@ -100,6 +101,10 @@ chrome.runtime.onMessage.addListener(
       case 'remove-time-changed':
         idleTabTime = message.payload as number;
         chrome.storage.local.set({ [IDLE_TAB_TIME]: message.payload });
+        break;
+      case 'update-saved-tabs':
+        savedTabs = message.payload as SavedTab[];
+        chrome.storage.local.set({ [SAVED_TABS]: message.payload });
         break;
 
       default:
