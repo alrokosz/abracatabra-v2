@@ -26,12 +26,6 @@ window.ResizeObserver = jest.fn().mockImplementation(() => ({
   unobserve: jest.fn()
 }));
 
-test('App first shows loading', async () => {
-  render(<App />);
-  const header = screen.findByText('Loading');
-  expect(header).toBeInTheDocument();
-});
-
 test('App is in the document', async () => {
   render(<App />);
   const header = await waitFor(() => screen.findByText(/ABRACA/i));

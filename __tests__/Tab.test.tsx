@@ -33,6 +33,14 @@ function setup(NewProps = {}) {
     url: 'sdfgsdfg',
     setSavedTabs: (): any => null,
     savedAt: Date.now(),
+    savedTabs: [
+      {
+        isPinned: false,
+        url: 'youtube',
+        savedAt: Date.now(),
+        id: 'adfgsdfgsdfgs'
+      }
+    ],
     ...NewProps
   };
   return {
