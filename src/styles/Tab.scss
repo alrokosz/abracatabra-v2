@@ -7,7 +7,7 @@
 
   a {
     text-decoration: none;
-    width: 200px;
+    width: 260px;
     overflow: hidden;
     color: green;
     margin-right: auto;
@@ -21,7 +21,9 @@
   }
 
   .trash-button {
-    // background-color: white;
+    background-color: white;
+    color: limegreen;
+    transition: none;
   }
 
   .days-box {

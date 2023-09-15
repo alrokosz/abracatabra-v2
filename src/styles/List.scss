@@ -22,9 +22,6 @@
       background: white;
       transition: background 160ms ease-out;
     }
-    .ScrollAreaScrollbar:hover {
-      // background: black;
-    }
     .ScrollAreaScrollbar[data-orientation='vertical'] {
       width: 10px;
     }
@@ -57,18 +54,18 @@
     }
 
     .Text {
-      color: purple;
+      color: green;
       font-size: 15px;
       line-height: 18px;
       font-weight: 500;
     }
 
     .Tag {
-      color: orange;
+      color: green;
       font-size: 13px;
       line-height: 18px;
       margin-top: 4px;
-      border-top: 1px solid blue;
+      border-top: 1px solid limegreen;
       padding-top: 4px;
     }
   }

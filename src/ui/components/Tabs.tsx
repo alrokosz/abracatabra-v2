@@ -30,7 +30,7 @@ export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
       ]
     : fuzzy(savedTabs, searchValue, ['url']);
 
-  const Tag = pinIsChecked ? DrawingPinFilledIcon : DrawingPinIcon;
+  const Pin = pinIsChecked ? DrawingPinFilledIcon : DrawingPinIcon;
 
   const onSearchChange = (e: any) => {
     setSearchValue(e.target.value);
@@ -49,14 +49,17 @@ export default function Tabs({ savedTabs, setSavedTabs }: TabsProps) {
         style={{
           display: 'flex',
           flexDirection: 'row',
-          alignItems: 'center'
+          alignItems: 'center',
+          marginTop: '12px',
+          paddingRight: '14px'
         }}
       >
-        <Tag
+        <Pin
           onClick={() => setPinIsChecked(!pinIsChecked)}
           height={25}
           width={25}
           color="limegreen"
+          style={{ marginRight: '16px' }}
         />
         <SearchBar
           searchValue={searchValue}

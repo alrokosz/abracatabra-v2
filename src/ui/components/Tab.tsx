@@ -5,6 +5,7 @@ import Box from './Box';
 import { TrashIcon } from '@radix-ui/react-icons';
 import Button from './Button';
 import '../../styles/Tab.scss';
+import Tooltip from './Tooltip';
 
 type TabProps = {
   savedAt: number;
@@ -38,14 +39,16 @@ export default function Tab({
       <Box width={'48px'} height={'100%'} className="days-box">
         {daysAgo(savedAt)}
       </Box>
-      <a
-        style={{ whiteSpace: 'nowrap' }}
-        className="tab-anchor"
-        href={url}
-        target="_blank"
-      >
-        {url}
-      </a>
+      <Tooltip content={url}>
+        <a
+          style={{ whiteSpace: 'nowrap' }}
+          className="tab-anchor"
+          href={url}
+          target="_blank"
+        >
+          {url}
+        </a>
+      </Tooltip>
       <Button className="trash-button" onClick={onTrashClick}>
         {<TrashIcon />}
       </Button>
