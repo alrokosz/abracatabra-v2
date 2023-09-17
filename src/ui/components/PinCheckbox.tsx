@@ -1,7 +1,6 @@
 import { DrawingPinIcon, DrawingPinFilledIcon } from '@radix-ui/react-icons';
 import * as Checkbox from '@radix-ui/react-checkbox';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import { useState } from 'react';
 import Tooltip from './Tooltip';
 import { SavedTab } from '../../types/types';
 
@@ -9,23 +8,28 @@ type PinCheckBoxProps = {
   isPinned: boolean;
   setSavedTabs: React.Dispatch<React.SetStateAction<SavedTab[]>>;
   id: string;
+  savedTabs: SavedTab[];
 };
 
 export default function PinCheckbox({
   isPinned,
   setSavedTabs,
+  savedTabs,
   id
 }: PinCheckBoxProps) {
   const Tag = isPinned ? DrawingPinFilledIcon : DrawingPinIcon;
 
   const onCheckedChange = () => {
-    setSavedTabs((savedTabs) => {
-      return savedTabs.map((tab) => {
-        if (tab.id === id) {
-          tab.isPinned = !isPinned;
-        }
-        return tab;
-      });
+    const newSavedTabs = savedTabs.map((tab) => {
+      if (tab.id === id) {
+        tab.isPinned = !isPinned;
+      }
+      return tab;
+    });
+    setSavedTabs(newSavedTabs);
+    chrome.runtime.sendMessage({
+      type: 'update-saved-tabs',
+      payload: newSavedTabs
     });
   };
 

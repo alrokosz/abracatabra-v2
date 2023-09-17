@@ -35,11 +35,16 @@ export default function Tab({
 
   return (
     <div className="tab">
-      <PinCheckbox id={id} setSavedTabs={setSavedTabs} isPinned={isPinned} />
+      <PinCheckbox
+        savedTabs={savedTabs}
+        id={id}
+        setSavedTabs={setSavedTabs}
+        isPinned={isPinned}
+      />
       <Box width={'48px'} height={'100%'} className="days-box">
         {daysAgo(savedAt)}
       </Box>
-      <Tooltip content={url}>
+      <Tooltip content={url} delay={1500}>
         <a
           style={{ whiteSpace: 'nowrap' }}
           className="tab-anchor"
